@@ -1,10 +1,11 @@
 name: "Diff Coverage"
 on:
-  pull_request:
-    types: [ready_for_review]
+  issue_comment:
+    types: [created]
 jobs:
   coverage:
     runs-on: ubuntu-latest
+    if: startsWith(github.event.comment.body, 'test') && github.event.issue.pull_request
     env:
       JDK_VERSION: '8'
       JDK_IMPL: 'hotspot'
