@@ -5,10 +5,11 @@ README:
 
   See ../README-builds.html for complete details on build machine requirements.
 
-Simple Build Instructions:
+Super Simple Build Instructions:
 
     cd make && gnumake
      
   The files that will be imported into the jdk build will be in the "dist"
-  directory.
+  directory.                
 
+I am making modifications to this file.
