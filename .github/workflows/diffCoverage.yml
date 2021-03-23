@@ -52,7 +52,6 @@ jobs:
           } catch (err) {
             core.setFailed(`Request failed with error ${err}`)
           }
-        # openjdk_testRepo: '${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}:${{ fromJSON(steps.get-pr.outputs.result).head.ref }}'
     - name: Extract base and head
       id: base-head
       run: |
@@ -67,9 +66,6 @@ jobs:
         git remote add upstream ${{ steps.base-head.outputs.head_repo_url }}
         git fetch upstream
         git diff --patch ${{ steps.base-head.outputs.base_branch }} upstream/${{ fromJSON(steps.get-pr.outputs.result).head.ref }} > diff
-      # git clone -b ${{ steps.base-head.outputs.base_branch }} ${{ steps.base-head.outputs.base_repo_url }} base_repo
-      # cd base_repo
-      # ${GITHUB_WORKSPACE}/jdkbinary/bin/java -Xmx4g -jar ${GITHUB_WORKSPACE}/jtreg/lib/jcov.jar DiffCoverage result.xml diff
-    - name: test
+    - name: echo diff
       run: |
         cat diff
