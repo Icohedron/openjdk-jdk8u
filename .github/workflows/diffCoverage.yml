@@ -55,7 +55,6 @@ jobs:
     - name: Extract base and head
       id: base-head
       run: |
-        echo ::set-output name=base_branch::${{ fromJSON(steps.get-pr.outputs.result).base.ref }}
         echo ::set-output name=head_repo_url::${{ fromJSON(steps.get-pr.outputs.result).head.repo.html_url }}
         echo ::set-output name=head_branch::${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
     - uses: actions/checkout@v2 # we checkout the master branch because the jcov results.xml is based on the master branch.
