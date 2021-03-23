@@ -34,7 +34,7 @@ jobs:
         rm -rf $jdkFileName
         cd $GITHUB_WORKSPACE
     - name: download results.xml
-      run: wget https://ci.adoptopenjdk.net/view/Test_grinder/job/UploadFile/25/artifact/upload/result.xml
+      run: wget https://ci.adoptopenjdk.net/job/UploadFile/25/artifact/upload/result.xml
     # get-pr step by @Simran-B https://github.com/actions/checkout/issues/331#issuecomment-707103442
     - uses: actions/github-script@v3
       id: get-pr
@@ -58,14 +58,12 @@ jobs:
         echo ::set-output name=base_branch::${{ fromJSON(steps.get-pr.outputs.result).base.ref }}
         echo ::set-output name=head_repo_url::${{ fromJSON(steps.get-pr.outputs.result).head.repo.html_url }}
         echo ::set-output name=head_branch::${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ steps.base-head.outputs.base_branch }}
+    - uses: actions/checkout@v2 # we checkout the master branch because the jcov results.xml is based on the master branch.
     - name: run jcov
       run: |
         git remote add upstream ${{ steps.base-head.outputs.head_repo_url }}
         git fetch upstream
-        git diff --patch ${{ steps.base-head.outputs.base_branch }} upstream/${{ fromJSON(steps.get-pr.outputs.result).head.ref }} > diff
+        git diff --patch master upstream/${{ fromJSON(steps.get-pr.outputs.result).head.ref }} > diff
     - name: echo diff
       run: |
         cat diff
