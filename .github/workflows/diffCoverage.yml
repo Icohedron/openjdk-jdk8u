@@ -64,6 +64,7 @@ jobs:
         git fetch upstream
         git diff --patch master upstream/${{ fromJSON(steps.get-pr.outputs.result).head.ref }} > diff
     - name: run jcov
+      run: |
         ${GITHUB_WORKSPACE}/jdkbinary/bin/java -version
         cd ${GITHUB_WORKSPACE}/jdk/test/java/math
         find -name "*.java" > sources.txt
