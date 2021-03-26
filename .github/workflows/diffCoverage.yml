@@ -63,6 +63,10 @@ jobs:
         git remote add upstream ${{ steps.base-head.outputs.head_repo_url }}
         git fetch upstream
         git diff --patch master upstream/${{ fromJSON(steps.get-pr.outputs.result).head.ref }} > diff
+        ${GITHUB_WORKSPACE}/jdkbinary/bin/java -version
+        cd ${GITHUB_WORKSPACE}/jdk/test/java/math
+        find -name "*.java" > sources.txt
+        javac @sources.txt -d ${GITHUB_WORKSPACE}/result
     - name: echo diff
       run: |
         cat diff
