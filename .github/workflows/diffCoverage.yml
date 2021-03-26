@@ -58,15 +58,17 @@ jobs:
         echo ::set-output name=head_repo_url::${{ fromJSON(steps.get-pr.outputs.result).head.repo.html_url }}
         echo ::set-output name=head_branch::${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
     - uses: actions/checkout@v2 # we checkout the master branch because the jcov results.xml is based on the master branch.
-    - name: run jcov
+    - name: get diff file
       run: |
         git remote add upstream ${{ steps.base-head.outputs.head_repo_url }}
         git fetch upstream
         git diff --patch master upstream/${{ fromJSON(steps.get-pr.outputs.result).head.ref }} > diff
+    - name: run jcov
         ${GITHUB_WORKSPACE}/jdkbinary/bin/java -version
         cd ${GITHUB_WORKSPACE}/jdk/test/java/math
         find -name "*.java" > sources.txt
         javac @sources.txt -d ${GITHUB_WORKSPACE}/result
+        cd ${GITHUB_WORKSPACE}/result && ls
     - name: echo diff
       run: |
         cat diff
